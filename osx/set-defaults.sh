@@ -8,9 +8,9 @@
 #
 
 # Set computer name
-COMPUTERNAME="Nick Plekhanov's MBP"
-HOSTNAME='mbp'
-LOCALHOSTNAME='mbp'
+COMPUTERNAME="fearoflittlepro"
+HOSTNAME='fearoflittlepro'
+LOCALHOSTNAME='fearoflittlepro'
 
 # Ask for the administrator password upfront
 sudo -v
@@ -73,7 +73,6 @@ defaults write com.apple.terminal StringEncodings -array 4
 # Disable some menu bar icons: Time Machine, Volume and User
 for domain in ~/Library/Preferences/ByHost/com.apple.stytemuiserver.*; do
   "/System/Library/CoreServices/Menu Extras/TimeMachine.menu" \
-  "/System/Library/CoreServices/Menu Extras/Volume.menu" \
   "/System/Library/CoreServices/Menu Extras/User.menu"
 done
 
@@ -99,10 +98,10 @@ defaults write com.apple.ActivityMonitor SortDirection -int 0
 ###############################################################################
 
 # Map bottom right corner of Apple trackpad to right-click.
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
-defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
-defaults -currentHost write -g com.apple.trackpad.trackpadCornerClickBehavior -int 1
-defaults -currentHost write com.apple.trackpad.enableSecondaryClick -bool true
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadCornerSecondaryClick -int 2
+# defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad TrackpadRightClick -bool true
+# defaults -currentHost write -g com.apple.trackpad.trackpadCornerClickBehavior -int 1
+# defaults -currentHost write com.apple.trackpad.enableSecondaryClick -bool true
 
 # Set a really fast keyboard repeat rate.
 defaults write -g KeyRepeat -int 0
@@ -111,10 +110,10 @@ defaults write -g KeyRepeat -int 0
 defaults write -g ApplePressAndHoldEnabled -bool false
 
 # Set language and text formats. (USD and Imperial Units)
-defaults write -g AppleLanguages -array "en" "nl"
-defaults write -g AppleLocale -string "en_US@currency=USD"
-defaults write -g AppleMeasurementUnits -string "Inches"
-defaults write -g AppleMetricUnits -bool false
+# defaults write -g AppleLanguages -array "en" "nl"
+# defaults write -g AppleLocale -string "en_US@currency=USD"
+# defaults write -g AppleMeasurementUnits -string "Inches"
+# defaults write -g AppleMetricUnits -bool false
 
 ###############################################################################
 # Screen
@@ -132,8 +131,9 @@ defaults write -g AppleMetricUnits -bool false
 #  10: Put display to sleep
 #  11: Launchpad
 #  12: Notification Center
-# defaults write com.apple.dock wvous-bl-corner -int 5
-# defaults write com.apple.dock wvous-bl-modifier -int 0
+defaults write com.apple.dock wvous-bl-corner -int 10
+defaults write com.apple.dock wvous-tl-corner -int 4
+defaults write com.apple.dock wvous-tr-corner -int 3
 
 # Require password immediately after sleep or screen saver.
 defaults write com.apple.screensaver askForPassword -int 1

@@ -44,27 +44,38 @@ brew upgrade --all
 # which version I'm using.
 
 apps=(
-    rvm
-    nvm
+    autojump
+    awscli
     bash-completion2
+    cloudfoundry-cli
     coreutils
-    moreutils
     findutils
+    genesis
     git
     git-extras
-    hub
+    git-flow
     gnu-sed --with-default-names
     grep --with-default-names
     homebrew/completions/brew-cask-completion
     homebrew/dupes/grep
     homebrew/dupes/openssh
-    mtr
-    autojump
+    hub
     imagemagick --with-webp
+    iperf
+    jq
+    mackup
+    moreutils
+    mtr
+    nvm
     python
+    rbenv
+    safe
     source-highlight
+    spruce
     the_silver_searcher
+    tmate
     tree
+    vim
     wget
     wifi-password
 )

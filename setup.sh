@@ -161,77 +161,77 @@ echo "done"
 #
 
 
-# Atom editor settings
-echo -n "Copying Atom settings.."
-mv -f ~/.atom ~/dotfiles_old/
-ln -s $HOME/dotfiles/atom ~/.atom
-echo "done"
+# declare -a FILES_TO_SYMLINK=(
 
+#   'shell/shell_aliases'
+#   'shell/shell_config'
+#   'shell/shell_exports'
+#   'shell/shell_functions'
+#   'shell/bash_profile'
+#   'shell/bash_prompt'
+#   'shell/bashrc'
+#   'shell/zshrc'
+#   'shell/ackrc'
+#   'shell/curlrc'
+#   'shell/gemrc'
+#   'shell/inputrc'
+#   'shell/screenrc'
 
-declare -a FILES_TO_SYMLINK=(
+#   'git/gitattributes'
+#   'git/gitconfig'
+#   'git/gitignore'
 
-  'shell/shell_aliases'
-  'shell/shell_config'
-  'shell/shell_exports'
-  'shell/shell_functions'
-  'shell/bash_profile'
-  'shell/bash_prompt'
-  'shell/bashrc'
-  'shell/zshrc'
-  'shell/ackrc'
-  'shell/curlrc'
-  'shell/gemrc'
-  'shell/inputrc'
-  'shell/screenrc'
+# )
 
-  'git/gitattributes'
-  'git/gitconfig'
-  'git/gitignore'
+# # FILES_TO_SYMLINK="$FILES_TO_SYMLINK .vim bin" # add in vim and the binaries
 
-)
+# # Move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 
-# FILES_TO_SYMLINK="$FILES_TO_SYMLINK .vim bin" # add in vim and the binaries
+# for i in ${FILES_TO_SYMLINK[@]}; do
+#   echo "Moving any existing dotfiles from ~ to $dir_backup"
+#   mv ~/.${i##*/} ~/dotfiles_old/
+# done
 
-# Move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
+# I use mackup for these preferences as well as application ones
+cat > $HOME/.mackup.cfg <<- EOM
+[storage]
+engine = icloud
+EOM
 
-for i in ${FILES_TO_SYMLINK[@]}; do
-  echo "Moving any existing dotfiles from ~ to $dir_backup"
-  mv ~/.${i##*/} ~/dotfiles_old/
-done
-
+mackup restore
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 main() {
 
-  local i=''
-  local sourceFile=''
-  local targetFile=''
+  # local i=''
+  # local sourceFile=''
+  # local targetFile=''
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  for i in ${FILES_TO_SYMLINK[@]}; do
+  # for i in ${FILES_TO_SYMLINK[@]}; do
 
-    sourceFile="$(pwd)/$i"
-    targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
+  #   sourceFile="$(pwd)/$i"
+  #   targetFile="$HOME/.$(printf "%s" "$i" | sed "s/.*\/\(.*\)/\1/g")"
 
-    if [ ! -e "$targetFile" ]; then
-      execute "ln -fs $sourceFile $targetFile" "$targetFile → $sourceFile"
-    elif [ "$(readlink "$targetFile")" == "$sourceFile" ]; then
-      print_success "$targetFile → $sourceFile"
-    else
-      ask_for_confirmation "'$targetFile' already exists, do you want to overwrite it?"
-      if answer_is_yes; then
-        rm -rf "$targetFile"
-        execute "ln -fs $sourceFile $targetFile" "$targetFile → $sourceFile"
-      else
-        print_error "$targetFile → $sourceFile"
-      fi
-    fi
+  #   if [ ! -e "$targetFile" ]; then
+  #     execute "ln -fs $sourceFile $targetFile" "$targetFile → $sourceFile"
+  #   elif [ "$(readlink "$targetFile")" == "$sourceFile" ]; then
+  #     print_success "$targetFile → $sourceFile"
+  #   else
+  #     ask_for_confirmation "'$targetFile' already exists, do you want to overwrite it?"
+  #     if answer_is_yes; then
+  #       rm -rf "$targetFile"
+  #       execute "ln -fs $sourceFile $targetFile" "$targetFile → $sourceFile"
+  #     else
+  #       print_error "$targetFile → $sourceFile"
+  #     fi
+  #   fi
 
-  done
+  # done
 
-  unset FILES_TO_SYMLINK
+  # unset FILES_TO_SYMLINK
 
   # Copy binaries
   ln -fs $HOME/dotfiles/bin $HOME
@@ -255,16 +255,16 @@ main() {
 
   unset BINARIES
 
-  # Symlink online-check.sh
-  ln -fs $HOME/dotfiles/lib/online-check.sh $HOME/online-check.sh
+  # # Symlink online-check.sh
+  # ln -fs $HOME/dotfiles/lib/online-check.sh $HOME/online-check.sh
 
-  # Write out current crontab
-  crontab -l > mycron
-  # Echo new cron into cron file
-  echo "* * * * * ~/online-check.sh" >> mycron
-  # Install new cron file
-  crontab mycron
-  rm mycron
+  # # Write out current crontab
+  # crontab -l > mycron
+  # # Echo new cron into cron file
+  # echo "* * * * * ~/online-check.sh" >> mycron
+  # # Install new cron file
+  # crontab mycron
+  # rm mycron
 
 }
 
@@ -303,33 +303,22 @@ install_zsh () {
 
 # Package managers & packages
 
-# . "$DOTFILES_DIR/install/brew.sh"
+. "$DOTFILES_DIR/install/brew.sh"
 # . "$DOTFILES_DIR/install/npm.sh"
 
-# if [ "$(uname)" == "Darwin" ]; then
-    # . "$DOTFILES_DIR/install/brew-cask.sh"
-# fi
+if [ "$(uname)" == "Darwin" ]; then
+    . "$DOTFILES_DIR/install/brew-cask.sh"
+fi
 
 main
 # install_zsh
-
-###############################################################################
-# Atom                                                                        #
-###############################################################################
-
-# Copy over Atom configs
-#cp -r atom/packages.list $HOME/.atom
-
-# Install community packages
-#apm list --installed --bare - get a list of installed packages
-#apm install --packages-file $HOME/.atom/packages.list
 
 ###############################################################################
 # Zsh                                                                         #
 ###############################################################################
 
 # Install Zsh settings
-ln -s ~/dotfiles/zsh/themes/nick.zsh-theme $HOME/.oh-my-zsh/themes
+ln -s ~/dotfiles/zsh/themes/fearoffish.zsh-theme $HOME/.oh-my-zsh/themes
 
 
 ###############################################################################
